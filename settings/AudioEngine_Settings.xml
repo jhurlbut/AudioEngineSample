@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AudioEngineSettings>
+	<assetspath>"..\\assets\\"</assetspath>
+	<audio>
+		<playback>
+			<device id="0" name="MOTU Main Out 1-2 (MOTU Audio Wave for 64 bit)" ></device>
+			</playback>
+		<recording>
+			<device id="5" name="" ></device>
+		</recording>
+		<midi>
+			<device id="2" name="nano Key" ></device>
+		</midi>
+	</audio>
+</AudioEngineSettings>
