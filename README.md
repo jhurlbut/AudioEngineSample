@@ -8,6 +8,7 @@ Features:
 - line input playback rate adjust
 - midi input with event callbacks
 - audio and midi device polling
+- 3d positioning of listener and samples
 
 overwrite settings/AudioEngine_Settings.xml with settings/AudioEngine_Settings - Empty.xml 
 and run the app. You should see some playback and recording devices in the parameter window.
@@ -15,8 +16,8 @@ add settings tags for the devices you want to use. for example:
 
 `
 <playback>`
-	`<device id="0" name="MOTU Main Out 1-2" ></device>`
-	`<device id="5" name="MOTU Out 3-4" ></device>`
+	`<device id="3" name="MOTU 1" playerposx="55" playerposy="0" playerposz = "0" playerlookatx="0" playerlookaty="0" playerlookatz="1"></device>`
+	`<device id="5" name="MOTU 2" playerposx="55" playerposy="0" playerposz = "0" playerlookatx="0" playerlookaty="0" playerlookatz="1"></device>`
 `</playback>`
 `<recording>`
 	`<device id="5" name="" ></device>`
