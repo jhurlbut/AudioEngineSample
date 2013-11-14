@@ -73,13 +73,11 @@ void LineInput::update()
 
 	recorddelta = recordpos >= lastrecordpos ? recordpos - lastrecordpos : recordpos + recordLength - lastrecordpos;
 	samplesrecorded += recorddelta;
-	console() << " samplesrecorded " << samplesrecorded << endl;
 	if (samplesrecorded >= adjustedlatency && !mChannelSound)
 	{
 		for(auto playbackdevice : mPlayBackDeviceMap){
 			auto mSys = playbackdevice.second->getSystem();
 			FMOD_RESULT result = mSys->playSound(FMOD_CHANNEL_FREE, mSoundBufferMap[playbackdevice.first], 0, &mChannelSound);
-			console() << " starting playback "<< playbackdevice.first << " result " << result << endl;
 		}
 	}
 

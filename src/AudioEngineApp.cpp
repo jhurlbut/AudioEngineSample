@@ -79,7 +79,10 @@ void AudioEngineApp::parseSettings( XmlTree _root )
 	XmlTree d = t.getChild("playback");
 	for( auto & device : d.getChildren() )
     {
-        mAudioEngine->addPlaybackDevice(device->getAttributeValue<int>( "id" ));
+        Vec3f playerPos = Vec3f(device->getAttributeValue<float>( "playerposx" ),device->getAttributeValue<float>( "playerposy" ),device->getAttributeValue<float>( "playerposz" ));
+		Vec3f playerLookAt = Vec3f(device->getAttributeValue<float>( "playerlookatx" ),device->getAttributeValue<float>( "playerlookaty" ),device->getAttributeValue<float>( "playerlookatz" ));
+		mAudioEngine->addPlaybackDevice(device->getAttributeValue<int>( "id" ),playerPos,playerLookAt);
+		
     }
 	d = t.getChild("recording");
 	for( auto & device : d.getChildren() )
@@ -201,7 +204,9 @@ void AudioEngineApp::update()
     mFrameRate = getAverageFps();
 	mAudioEngine->update();
 	mAudioEngine->setPlaybackSpeed(mPlaybackspeed);
-   
+	//mAudioEngine->getSoundItem("bd",0)->soundPos = Vec3f(sin(getElapsedSeconds())*4,0,0);
+	mAudioEngine->getDevice(0)->setListenerPos(Vec3f(sin(getElapsedSeconds())*4,0,0),Vec3f(0,0,1));
+	console()<<mAudioEngine->getDevice(0)->getListenerPos()<<endl;
 }
 void AudioEngineApp::resize()
 {

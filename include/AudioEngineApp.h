@@ -37,4 +37,5 @@ class AudioEngineApp : public cinder::app::AppNative
         std::string				mSettingsPath;
         std::string				mBasePath;
         std::string				mAssetsPath;
+
 };

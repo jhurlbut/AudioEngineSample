@@ -43,12 +43,15 @@ class AudioEngine
 		void	addSound(std::string pID, std::string pFile);
 		//call this to load all sounds into every system for faster playback
 		void	loadSoundsSystem();
-		int		addPlaybackDevice(int pID);
+		int		addPlaybackDevice(int pID, ci::Vec3f playerPos, ci::Vec3f playerLookAt);
 		int		addRecordingDevice(int pID);
 		int		addMidiDevice(int pID);
 		int		setRecording(bool pSet);
 		int		initializeInputs();
 		void	setPlaybackSpeed(float pSpeed);
+		void	setSoundPos(int pDeviceID, std::string soundID, ci::Vec3f pPos);
+		ci::Vec3f	getListenerPos(int pDeviceID);
+		SoundItemRef	getSoundItem(std::string pSoundID, int pID);
 		AudioDeviceRef getDevice(int playerID){ return mDeviceMap[mDeviceIDs[playerID]]; }
 		void	playSound(std::string pSoundID, int pDeviceID);
 		std::vector<std::string>	getPlaybackDeviceList(int pID);
@@ -68,7 +71,7 @@ class AudioEngine
         AudioEngineEventCallbackMgr										mAudioEngineEventCallbackMgr;
 		bool mIsSetup;
 
-		std::map<std::string, SoundItem>								mSoundMap;
+		std::map<std::string, SoundItemRef>								mSoundMap;
 		std::map<unsigned int, AudioDeviceRef>							mDeviceMap;
 		std::map<unsigned int, AudioDeviceRef>							mRecordDeviceMap;
 		std::map<unsigned int, FMOD::Channel*>							mChannelMap;

@@ -37,6 +37,13 @@ void AudioEngine::update()
 		}
 	}
 } 
+SoundItemRef	AudioEngine::getSoundItem(std::string pSoundID, int pID)
+{ 
+
+	int deviceID = mDeviceIDs[pID];
+	SoundItemRef item = mDeviceMap[deviceID]->getSoundItem(mSoundMap[pSoundID]);
+	return item;
+}
 void AudioEngine::processMidiMessage(midi::Message* message){
 	//console() << "midi port: " << message->port << " ch: " << message->channel << " status: " << message->status;
 	//console() << " byteOne: " << message->byteOne << " byteTwo: " << message->byteTwo << std::endl;
@@ -52,14 +59,27 @@ void AudioEngine::processMidiMessage(midi::Message* message){
 			//console()<< "note " << noteValue << endl;
 			AudioEngineEvent event;
 			event.sigType = MIDI_NOTE_EVENT;
-			event.deviceID = noteValue;
+			event.deviceID = message->port;
+			event.noteNum = noteValue;
 			mAudioEngineEventCallbackMgr.call( event );
 			break;
 	}
 }
-int AudioEngine::addPlaybackDevice(int pID){
+void AudioEngine::setSoundPos(int pDeviceID, std::string soundID, ci::Vec3f pPos){
+	if(pDeviceID == 4){
+		for( auto device : mDeviceMap ){
+			device.second->setSoundPos(soundID, pPos);
+		}
+	}
+	else {
+		int deviceID = mDeviceIDs[pDeviceID];
+		mDeviceMap[deviceID]->setSoundPos(soundID, pPos);
+	}
+}
+int AudioEngine::addPlaybackDevice(int pID, Vec3f playerPos, Vec3f playerLookAt){
 	int returnval = 0;
 	AudioDeviceRef newDevice = AudioDevice::create(pID);
+	newDevice->setListenerPos(playerPos,playerLookAt);
 	returnval = newDevice->setup();
 	mDeviceMap[pID] = newDevice;
 	mDeviceIDs.push_back(pID);
@@ -104,6 +124,10 @@ int AudioEngine::addMidiDevice(int pID){
 	}
 	numMidiPorts++;
 	return 0;
+}
+ci::Vec3f AudioEngine::getListenerPos(int pDeviceID){
+	int deviceID = mDeviceIDs[pDeviceID];
+	return mDeviceMap[deviceID]->getListenerPos();
 }
 void AudioEngine::playSound(string pSoundID, int pDeviceID){
 	
@@ -174,9 +198,9 @@ vector<string> AudioEngine::getMidiDevices(){
 	
 }
 void AudioEngine::addSound(string pID, string pFile){
-	SoundItem newSound;
-	newSound.id = pID;
-	newSound.filename = pFile;
+	SoundItemRef newSound = SoundItem::create();
+	newSound->id = pID;
+	newSound->filename = pFile;
 	mSoundMap[pID] = newSound;
 }
 void AudioEngine::loadSoundsSystem()

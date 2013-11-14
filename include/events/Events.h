@@ -9,7 +9,8 @@ typedef enum
 
 struct AudioEngineEvent
 {
-	SIG_TYPE sigType;
-    std::string		 soundID;
-    int		 deviceID;
+	SIG_TYPE		sigType;
+    std::string		soundID;
+    int				deviceID;
+	int				noteNum;
 };
