@@ -206,7 +206,7 @@ void AudioEngineApp::update()
 	mAudioEngine->setPlaybackSpeed(mPlaybackspeed);
 	//mAudioEngine->getSoundItem("bd",0)->soundPos = Vec3f(sin(getElapsedSeconds())*4,0,0);
 	mAudioEngine->getDevice(0)->setListenerPos(Vec3f(sin(getElapsedSeconds())*4,0,0),Vec3f(0,0,1));
-	console()<<mAudioEngine->getDevice(0)->getListenerPos()<<endl;
+	
 }
 void AudioEngineApp::resize()
 {
